@@ -19,6 +19,7 @@ public class Locators {
 	public static By MENU_LIST2 = By.xpath("//ul[@class='hmenu hmenu-visible hmenu-translateX']//li//a");
 	public static By priceDropdown = By.xpath("//span[@class='a-dropdown-label']");
 	public static By priceDropdownList = By.xpath("//ul[@class='a-nostyle a-list-link']//li");
+	public static By buyNowBttn=By.xpath("//input[@id='buy-now-button']");
 
 	public static By lowestPrice = By.xpath(
 			"//span[@class='celwidget slot=SEARCH_RESULTS template=SEARCH_RESULTS widgetId=search-results index=0']//span[@class='a-price-whole']");

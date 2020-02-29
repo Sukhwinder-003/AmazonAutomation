@@ -1,6 +1,6 @@
 package utils;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
@@ -8,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,13 +22,14 @@ public class Services {
 	public static WebElement displaySizeCheckBox1;
 	public static WebElement displaySizeCheckBox2;
 
-	//This method is to initialize the driver
+	// This method is to initialize the driver
 	public static void driverInitialization() {
 		System.setProperty("webdriver.chrome.driver", config.getDriverPath());
-		
-		// Here driver is an reference of an interface which is holding the chromeDriver object
-		//ChromeDriver is an implementation class of WebDriver Interface
-		
+
+		// Here driver is an reference of an interface which is holding the
+		// chromeDriver object
+		// ChromeDriver is an implementation class of WebDriver Interface
+
 		driver = new ChromeDriver();
 	}
 
@@ -37,14 +39,14 @@ public class Services {
 		}
 		return driver;
 	}
-	
-	public static void initializeDriver(){
-		
+
+	public static void initializeDriver() {
+
 		getDriver();
-		
-				
+
+
 	}
-	
+
 	public static void clickElement(By element) {
 
 		driver.findElement(element).click();
@@ -82,12 +84,11 @@ public class Services {
 
 	public static void applyImplicitWait() {
 
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 
 	}
 
-	
-	//This method is used to hold the list elements
+	// This method is used to hold the list of elements
 	public static void getDataFromList(By List, String Text) {
 
 		List<WebElement> list = driver.findElements(List);
@@ -116,15 +117,14 @@ public class Services {
 	}
 
 	public static void getProcessorCheckbox() {
-		
-		cpuTypeCheckbox =Locators.cpuTypeCheckbox(driver);
 
+		cpuTypeCheckbox = Locators.cpuTypeCheckbox(driver);
 
 	}
 
 	public static void getRAMCheckBox() {
 
-		memorySizeCheckBox =Locators.memorySizeCheckBox(driver);
+		memorySizeCheckBox = Locators.memorySizeCheckBox(driver);
 
 	}
 
@@ -139,23 +139,46 @@ public class Services {
 		displaySizeCheckBox2 = driver.findElement(By.xpath("//span[contains(text(),'13\" - 14')]"));
 
 	}
-	
-	public static  String getText(By xpath){
-		
+
+	public static String getText(By xpath) {
+
 		String text = driver.findElement(xpath).getText();
-		
+
 		return text;
-		
+
 	}
-		
-	public static void closeBrowser(){
-	
-		 if (driver == null) {
-		        return;
-		    }
-		    driver.quit();
-		    driver = null;
 
+	public static void closeBrowser() {
 
-}
+		if (driver == null) {
+			return;
+		}
+		driver.quit();
+		driver = null;
+
+	}
+
+	public static void handleWindow(By elementToClick) throws InterruptedException {
+
+		ArrayList<String> tabs2 = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs2.get(1));
+
+		driver.findElement(elementToClick).click();
+
+		applyImplicitWait();
+
+		System.out.println("@@@@@@@@@User Reached At " +getTitle("TITLE") + " Page Hence Closing The Tab Following By Browser@@@@@@@");
+
+		driver.close();
+		driver.switchTo().window(tabs2.get(0));
+
+	}
+
+	public static String getTitle(String bringTheTitle) {
+
+		bringTheTitle = driver.getTitle();
+
+		return bringTheTitle;
+
+	}
 }
